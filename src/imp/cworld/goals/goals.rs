@@ -1,8 +1,6 @@
-use self::goal::Goal;
+use crate::imp::cworld::nodes::condition::Condition;
 
-use super::nodes::condition::Condition;
-
-pub(crate) mod goal;
+use super::goal::Goal;
 
 pub struct Goals{
     vec : Vec<GoalChunk>
