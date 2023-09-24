@@ -37,11 +37,6 @@ impl From<std::io::Error> for NnError {
     }
 }
 
-impl From<async_channel::RecvError> for NnError{
-    fn from(e : async_channel::RecvError) -> Self {
-        Self{ e : e.into() }
-    }
-}
 
 impl From<String> for NnError {
     fn from(s : String) -> Self {
