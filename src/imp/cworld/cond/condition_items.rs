@@ -1,4 +1,4 @@
-use crate::imp::mworld::attributes::AttributeChara;
+use crate::imp::mworld::attributes::Attributes;
 
 use super::{condition_item::ConditionItem, rand_from_slice::rand_from_slice};
 
@@ -7,8 +7,8 @@ pub(crate) struct ConditionItems<T> {
 }
 
 impl<T> ConditionItems<T> {
-    /// Returns the item just before the None.
-    pub(crate) fn seq_decide(&self, atts: &AttributeChara) -> Option<&T> {
+    /// Returns the item just before the first None.
+    pub(crate) fn seq_decide(&self, atts: &Attributes) -> Option<&T> {
         let mut result = None;
         for item in &self.vec {
             if let Some(r) = item.decide(atts) {
@@ -21,7 +21,7 @@ impl<T> ConditionItems<T> {
     }
 
     /// Returns the first Some.
-    pub(crate) fn above_decide(&self, atts: &AttributeChara) -> Option<&T> {
+    pub(crate) fn above_decide(&self, atts: &Attributes) -> Option<&T> {
         for item in &self.vec {
             if let Some(r) = item.decide(atts) {
                 return Some(r);
@@ -31,7 +31,7 @@ impl<T> ConditionItems<T> {
     }
 
     /// Returns Some randomly
-    pub(crate) fn rand_decide(&self, atts: &AttributeChara) -> Option<&T> {
+    pub(crate) fn rand_decide(&self, atts: &Attributes) -> Option<&T> {
         let mut vec = vec![];
         for item in &self.vec {
             if let Some(r) = item.decide(atts) {
@@ -41,7 +41,7 @@ impl<T> ConditionItems<T> {
         return rand_from_slice(&vec).map(|a| *a);
     }
 
-    pub(crate) fn all<'a>(&'a self, atts : &'a AttributeChara) -> impl Iterator<Item=&'a T> + 'a{
+    pub(crate) fn all<'a>(&'a self, atts: &'a Attributes) -> impl Iterator<Item = &'a T> + 'a {
         self.vec.iter().filter_map(|a| a.decide(atts))
     }
 }
