@@ -11,14 +11,17 @@ pub(crate) fn rand_from_slice<T>(slice: &[T]) -> Option<&T> {
     }
 }
 
-pub(crate) fn rand_with_weight_from_slice<'a, T>(wts: impl Iterator<Item=(usize, &'a T)>, weight_sum : usize) -> Option<&'a T>{
+pub(crate) fn rand_with_weight<'a, T>(
+    wts: impl Iterator<Item = (usize, &'a T)>,
+    weight_sum: usize,
+) -> Option<&'a T> {
     let mut r = rand::thread_rng();
     let n = r.gen_range(0..weight_sum);
     let mut sum = 0;
     let mut result = None;
-    for (weight, item) in wts{
+    for (weight, item) in wts {
         sum += weight;
-        if n < sum{
+        if n < sum {
             result = Some(item);
         }
     }

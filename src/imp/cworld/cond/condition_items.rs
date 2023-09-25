@@ -1,13 +1,16 @@
 use crate::imp::mworld::attributes::Attributes;
 
-use super::{rand_from_slice::{rand_from_slice, rand_with_weight_from_slice}, conditions::Conditions};
+use super::{
+    choose_randomly::{rand_from_slice, rand_with_weight},
+    conditions::Conditions,
+};
 
 pub(crate) struct ConditionItems<T> {
     vec: Vec<Conditions<T>>,
 }
 
 impl<T> ConditionItems<T> {
-    /// Returns the Some just before the first None. The last one if there's no None.
+    /// Returns the Some just before the first None. The last one if there's no None. None if there's no Some.
     pub(crate) fn seq_decide(&self, atts: &Attributes) -> Option<&T> {
         let mut result = None;
         for item in &self.vec {
@@ -41,25 +44,26 @@ impl<T> ConditionItems<T> {
         return rand_from_slice(&vec).map(|a| *a);
     }
 
-    pub(crate) fn all<'a>(&'a self, atts: &'a Attributes) -> impl Iterator<Item = &'a T> + 'a {
+    pub(crate) fn all<'a>(&'a self, atts: &'a Attributes) -> impl Iterator<Item = &'a T> {
         self.vec.iter().filter_map(|a| a.decide(atts))
     }
 
-    pub(crate) fn all_seq<'a>(&'a self, atts : &'a Attributes) -> impl Iterator<Item = &'a T> + 'a{
+    /// In Seq's model, only the latest one is active.
+    pub(crate) fn all_seq(&self, atts: &Attributes) -> impl Iterator<Item = &T> {
         Self::seq_decide(self, atts).into_iter()
     }
 }
 
-pub(crate) struct WeightCondItems<T>{
-    vec : Vec<WeightCondItem<T>>,
+pub(crate) struct WeightCondItems<T> {
+    vec: Vec<WeightCondItem<T>>,
 }
 
-pub(crate) struct WeightCondItem<T>{
-    weight : usize,
-    cond : Conditions<T>,
+pub(crate) struct WeightCondItem<T> {
+    weight: usize,
+    cond: Conditions<T>,
 }
 
-impl<T> WeightCondItems<T>{
+impl<T> WeightCondItems<T> {
     /// Returns Some randomly
     pub(crate) fn rand_decide(&self, atts: &Attributes) -> Option<&T> {
         let mut vec = vec![];
@@ -70,7 +74,7 @@ impl<T> WeightCondItems<T>{
                 weight_sum += item.weight;
             }
         }
-        return rand_with_weight_from_slice(vec.into_iter(), weight_sum);
+        return rand_with_weight(vec.into_iter(), weight_sum);
     }
 
     pub(crate) fn all<'a>(&'a self, atts: &'a Attributes) -> impl Iterator<Item = &'a T> + 'a {
@@ -78,8 +82,8 @@ impl<T> WeightCondItems<T>{
     }
 }
 
-impl<T> WeightCondItem<T>{
-    pub(crate) fn decide(&self, atts : &Attributes) -> Option<&T>{
+impl<T> WeightCondItem<T> {
+    pub(crate) fn decide(&self, atts: &Attributes) -> Option<&T> {
         self.cond.decide(atts)
     }
 }
