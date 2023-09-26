@@ -13,8 +13,3 @@ rand = "0.8"
 
 [dev-dependencies]
 futures-lite = "1"
-futures = { version = "*", features = ["executor", "thread-pool"] }
-tokio = { version = "1", features = ["full"] }
-crossbeam-channel = "0.5"
-smol = "*"
-rusty_pool = "*"
