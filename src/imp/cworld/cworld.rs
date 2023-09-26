@@ -1,9 +1,8 @@
-use self::{charas::Charas, nodes::Nodes};
+use super::{charas::charas::Charas, nodes::nodes::Nodes};
 
 
-pub(crate) mod charas;
-pub(crate) mod nodes;
-pub(crate) mod goals;
+
+
 
 pub(crate) struct CWorld{
     charas : Charas,

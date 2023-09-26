@@ -1,9 +1,7 @@
 use std::ops::Index;
 
-use self::chara::{Chara, CharaID};
+use super::chara::{Chara, CharaID};
 
-pub(crate) mod chara;
-pub(crate) mod battle_status;
 
 pub(crate) struct Charas{
     vec : Vec<Chara>

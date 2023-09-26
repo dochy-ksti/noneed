@@ -7,12 +7,11 @@ edition = "2021"
 
 [dependencies]
 bit-vec = "0.6"
-async-channel = "1"
 anyhow = "1"
 thiserror = "1"
+rand = "0.8"
 
 [dev-dependencies]
-rand = "0.8"
 futures-lite = "1"
 futures = { version = "*", features = ["executor", "thread-pool"] }
 tokio = { version = "1", features = ["full"] }
