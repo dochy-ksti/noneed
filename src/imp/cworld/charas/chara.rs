@@ -1,3 +1,5 @@
+use crate::imp::cworld::goals::goal::Goals;
+
 use super::battle_status::BattleStatus;
 
 
@@ -7,4 +9,5 @@ pub(crate) struct CharaID(pub usize);
 
 pub(crate) struct Chara {
     battle_status: BattleStatus,
+    goals : Goals,
 }

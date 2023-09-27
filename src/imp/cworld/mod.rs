@@ -3,3 +3,4 @@ pub(crate) mod nodes;
 pub(crate) mod goals;
 pub(crate) mod cond;
 pub(crate) mod cworld;
+pub(crate) mod obstructions;

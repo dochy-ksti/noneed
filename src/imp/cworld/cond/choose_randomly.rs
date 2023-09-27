@@ -1,6 +1,7 @@
 use rand::prelude::*;
 use std::ops::Index;
 
+/// None only when the slice is empty.
 pub(crate) fn rand_from_slice<T>(slice: &[T]) -> Option<&T> {
     if slice.is_empty() {
         None
@@ -11,6 +12,7 @@ pub(crate) fn rand_from_slice<T>(slice: &[T]) -> Option<&T> {
     }
 }
 
+/// When the iterator is empty or every weight is zero, None is returned.
 pub(crate) fn rand_with_weight<'a, T>(
     wts: impl Iterator<Item = (usize, &'a T)>,
     weight_sum: usize,
