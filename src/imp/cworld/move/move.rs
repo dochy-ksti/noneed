@@ -2,19 +2,18 @@ pub(crate) struct Moves{
     moves : Conditions<Move>
 }
 
-pub(crate) struct ConsumeData{
-    percent : usize,
-    repeatable : bool,
+pub(crate) struct Percent(usize);
+
+pub(crate) struct MoveCase{
+    consume : Percent,
+    repeatable : Percent,
 }
 
-/// In "No" and "IfSucceeded", even if you failed, you can continue your turn, 
-/// but You can't do the move repeatedly.
-pub(crate) enum Consume{
-    No,
-    IfSucceeded(usize),
-    IfFailed(usize),
-    Yes(usize),
+pub(crate) struct Consume{
+    if_succeeded : MoveCase,
+    if_failed : MoveCase,
 }
+
 
 pub(crate) struct Move{
     obs : Obstructions,
